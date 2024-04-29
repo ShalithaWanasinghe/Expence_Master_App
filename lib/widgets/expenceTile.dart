@@ -33,11 +33,11 @@ class ExpenceTile extends StatelessWidget {
                 const Spacer(),
                 Row(
                   children: [
-                    const Icon(Icons.trending_down),
+                    Icon(categoryIcons[expence.category]),
                     const SizedBox(
                       width: 8,
                     ),
-                    Text(expence.date.toString())
+                    Text(expence.getFomatedDate),
                   ],
                 )
               ],
