@@ -1,6 +1,6 @@
 import 'package:expence_master_app/models/expence.dart';
+import 'package:expence_master_app/widgets/expenceList.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class Expences extends StatefulWidget {
   const Expences({super.key});
@@ -54,13 +54,8 @@ class _ExpencesState extends State<Expences> {
       ),
       body: Column(
         children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: _expenceList.length,
-              itemBuilder: (context, index) {
-                return Text(_expenceList[index].title);
-              },
-            ),
+          ExpenceList(
+            expenceList: _expenceList,
           ),
         ],
       ),
