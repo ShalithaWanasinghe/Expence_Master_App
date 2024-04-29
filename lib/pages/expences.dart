@@ -1,4 +1,6 @@
+import 'package:expence_master_app/models/expence.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class Expences extends StatefulWidget {
   const Expences({super.key});
@@ -8,6 +10,25 @@ class Expences extends StatefulWidget {
 }
 
 class _ExpencesState extends State<Expences> {
+  //expencelist
+  final List<ExpenceModel> _expenceList = [
+    ExpenceModel(
+        title: "Foot Ball",
+        amount: 12.5,
+        date: DateTime.now(),
+        category: Category.leasure),
+    ExpenceModel(
+        title: "Carrot",
+        amount: 10,
+        date: DateTime.now(),
+        category: Category.food),
+    ExpenceModel(
+        title: "Bag",
+        amount: 20,
+        date: DateTime.now(),
+        category: Category.travel)
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +50,18 @@ class _ExpencesState extends State<Expences> {
               ),
             ),
           )
+        ],
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: _expenceList.length,
+              itemBuilder: (context, index) {
+                return Text(_expenceList[index].title);
+              },
+            ),
+          ),
         ],
       ),
     );
