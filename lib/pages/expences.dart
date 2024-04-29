@@ -17,7 +17,7 @@ class _ExpencesState extends State<Expences> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color.fromARGB(255, 77, 4, 195),
-        elevation: 5,
+        elevation: 0,
         actions: [
           Container(
             color: Colors.yellow,
