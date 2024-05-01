@@ -13,6 +13,36 @@ class _AddNewExpencesState extends State<AddNewExpences> {
   final _amountController = TextEditingController();
   Category _selectedCategory = Category.food;
 
+  final DateTime initialDate = DateTime.now();
+  final DateTime firstDate = DateTime(
+      DateTime.now().year - 1, DateTime.now().month, DateTime.now().day);
+  final DateTime lastDate = DateTime(
+      DateTime.now().year + 1, DateTime.now().month, DateTime.now().day);
+
+  DateTime _selectedDate = DateTime.now();
+
+  //date picker
+  Future<void> _openDateModel() async {
+    try {
+      final pickDate = await showDatePicker(
+        context: context,
+        initialDate: initialDate,
+        firstDate: firstDate,
+        lastDate: lastDate,
+      );
+
+      setState(
+        () {
+          _selectedDate = pickDate!;
+        },
+      );
+    } catch (err) {
+      print(
+        err.toString(),
+      );
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -54,9 +84,11 @@ class _AddNewExpencesState extends State<AddNewExpences> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text("2023/12/05"),
+                    Text(
+                      fomatedDate.format(_selectedDate),
+                    ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: _openDateModel,
                       icon: const Icon(Icons.date_range_outlined),
                     ),
                   ],
@@ -90,7 +122,7 @@ class _AddNewExpencesState extends State<AddNewExpences> {
                   children: [
                     ElevatedButton(
                       onPressed: () {},
-                      child: Text(
+                      child: const Text(
                         "Close",
                         style: TextStyle(color: Colors.black),
                       ),
@@ -100,12 +132,12 @@ class _AddNewExpencesState extends State<AddNewExpences> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     ElevatedButton(
                       onPressed: () {},
-                      child: Text(
+                      child: const Text(
                         "Save",
                         style: TextStyle(color: Colors.black),
                       ),
