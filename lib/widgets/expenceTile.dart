@@ -46,6 +46,5 @@ class ExpenceTile extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }

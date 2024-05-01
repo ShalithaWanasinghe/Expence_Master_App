@@ -1,4 +1,5 @@
 import 'package:expence_master_app/models/expence.dart';
+import 'package:expence_master_app/widgets/add_new_expences.dart';
 import 'package:expence_master_app/widgets/expenceList.dart';
 import 'package:flutter/material.dart';
 
@@ -29,6 +30,16 @@ class _ExpencesState extends State<Expences> {
         category: Category.travel)
   ];
 
+  //function to open a model overlay
+  void _openAddExpencesOverlay() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return AddNewExpences();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +54,7 @@ class _ExpencesState extends State<Expences> {
           Container(
             color: Colors.yellow,
             child: IconButton(
-              onPressed: () {},
+              onPressed: _openAddExpencesOverlay,
               icon: const Icon(
                 Icons.add,
                 color: Colors.black,
