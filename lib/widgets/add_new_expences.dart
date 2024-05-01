@@ -2,7 +2,8 @@ import 'package:expence_master_app/models/expence.dart';
 import 'package:flutter/material.dart';
 
 class AddNewExpences extends StatefulWidget {
-  const AddNewExpences({super.key});
+  final void Function(ExpenceModel expence) onAddExpence;
+  const AddNewExpences({super.key, required this.onAddExpence});
 
   @override
   State<AddNewExpences> createState() => _AddNewExpencesState();
@@ -43,6 +44,41 @@ class _AddNewExpencesState extends State<AddNewExpences> {
     }
   }
 
+  //handle form submit
+  void _handleformsubmit() {
+    //form validations
+    final userAmount = double.parse(_amountController.text.trim());
+    if (_titleController.text.trim().isEmpty || userAmount < 0) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Enter Valid Data"),
+            content:
+                const Text("Please enter the valid title and valid amount!"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("Close"),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      ExpenceModel newExpence = ExpenceModel(
+        title: _titleController.text.trim(),
+        amount: userAmount,
+        date: _selectedDate,
+        category: _selectedCategory,
+      );
+      widget.onAddExpence(newExpence);
+      navigator.pop(context);
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -72,7 +108,7 @@ class _AddNewExpencesState extends State<AddNewExpences> {
                 child: TextField(
                   controller: _amountController,
                   decoration: const InputDecoration(
-                    hintText: "Enter the amount",
+                    helperText: "Enter the amount",
                     label: Text("Amount"),
                   ),
                   keyboardType: TextInputType.number,
@@ -98,53 +134,58 @@ class _AddNewExpencesState extends State<AddNewExpences> {
           ),
           Row(
             children: [
-              DropdownButton(
-                value: _selectedCategory,
-                items: Category.values
-                    .map(
-                      (category) => DropdownMenuItem(
-                        value: category,
-                        child: Text(category.name),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (value) {
-                  setState(
-                    () {
-                      _selectedCategory = value!;
-                    },
-                  );
-                },
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: DropdownButton(
+                  value: _selectedCategory,
+                  items: Category.values
+                      .map(
+                        (category) => DropdownMenuItem(
+                          value: category,
+                          child: Text(category.name),
+                        ),
+                      )
+                      .toList(),
+                  onChanged: (value) {
+                    setState(
+                      () {
+                        _selectedCategory = value!;
+                      },
+                    );
+                  },
+                ),
               ),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ElevatedButton(
-                      onPressed: () {},
-                      child: const Text(
-                        "Close",
-                        style: TextStyle(color: Colors.black),
-                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       style: const ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(
                           Colors.redAccent,
                         ),
+                      ),
+                      child: const Text(
+                        "Close",
+                        style: TextStyle(color: Colors.black),
                       ),
                     ),
                     const SizedBox(
                       width: 10,
                     ),
                     ElevatedButton(
-                      onPressed: () {},
-                      child: const Text(
-                        "Save",
-                        style: TextStyle(color: Colors.black),
-                      ),
+                      onPressed: _handleformsubmit,
                       style: const ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(
                           Colors.lightGreenAccent,
                         ),
+                      ),
+                      child: const Text(
+                        "Save",
+                        style: TextStyle(color: Colors.black),
                       ),
                     ),
                   ],
