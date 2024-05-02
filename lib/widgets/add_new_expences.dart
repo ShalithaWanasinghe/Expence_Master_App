@@ -75,7 +75,7 @@ class _AddNewExpencesState extends State<AddNewExpences> {
         category: _selectedCategory,
       );
       widget.onAddExpence(newExpence);
-      navigator.pop(context);
+      Navigator.pop(context);
     }
   }
 

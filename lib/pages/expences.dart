@@ -32,11 +32,40 @@ class _ExpencesState extends State<Expences> {
 
   //add new Expence
   void onAddNewExpence(ExpenceModel expence) {
+    //store the deleting expence
+    ExpenceModel deletingExpence = expence;
+    //get the index og the removing expence
+    final int removingIndex = _expenceList.indexOf(expence);
+
     setState(
       () {
         _expenceList.add(expence);
       },
     );
+
+    //show snackbar
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text("Expence Deleted Successfully"),
+        action: SnackBarAction(
+          label: "Undo",
+          onPressed: () {
+            setState(
+              () {
+                _expenceList.insert(removingIndex, deletingExpence);
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  //Remove a expence
+  void onDeleteExpence(ExpenceModel expence) {
+    setState(() {
+      _expenceList.remove(expence);
+    });
   }
 
   //function to open a model overlay
@@ -78,6 +107,7 @@ class _ExpencesState extends State<Expences> {
         children: [
           ExpenceList(
             expenceList: _expenceList,
+            onDeleteExpence: onDeleteExpence,
           ),
         ],
       ),
